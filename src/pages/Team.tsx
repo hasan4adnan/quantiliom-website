@@ -15,7 +15,7 @@ function Team() {
       <nav className="navbar scrolled">
         <div className="nav-container">
           <Link to="/" className="logo">
-            <span className="logo-text">QUANTILIOM</span>
+            <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
           </Link>
           <div className="nav-menu">
             <Link to="/">Home</Link>

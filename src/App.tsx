@@ -228,13 +228,130 @@ function Home() {
 
   const displayedServices = showAllServices ? services : services.slice(0, 6)
 
+  // Technology logo mapping - using CDN URLs with transparent backgrounds
+  const techLogos: Record<string, string> = {
+    'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+    'Vue.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
+    'Angular': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg',
+    'TypeScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
+    'Next.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
+    'Tailwind CSS': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg',
+    'Node.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
+    'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+    'Java': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+    '.NET': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg',
+    'Go': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg',
+    'AWS': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/amazonaws.svg',
+    'Azure': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg',
+    'Google Cloud': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg',
+    'Docker': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
+    'Kubernetes': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg',
+    'React Native': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+    'Flutter': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg',
+    'iOS': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg',
+    'Android': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg',
+    'Swift': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg',
+    'TensorFlow': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg',
+    'PyTorch': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg',
+    'Scikit-learn': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/scikitlearn.svg',
+    'PostgreSQL': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+    'MongoDB': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
+    'Firebase': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg',
+    'PHP': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg',
+    'Oracle Cloud': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg',
+    'Kotlin': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg',
+    'MySQL': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
+    'Redis': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg',
+    'Elasticsearch': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/elasticsearch/elasticsearch-original.svg',
+    'Jest': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg',
+    'Cypress': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cypressio/cypressio-original.svg',
+    'Selenium': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg',
+    'JUnit': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+    'TestNG': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+    'Mocha': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mocha/mocha-plain.svg',
+    'Postman': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg',
+    'Playwright': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/playwright/playwright-original.svg',
+    'Puppeteer': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/puppeteer.svg',
+    'OWASP': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/owasp.svg',
+    'SSL/TLS': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/letsencrypt.svg',
+    'OAuth': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg',
+    'JWT': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/jsonwebtokens.svg',
+    'Penetration Testing': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kalilinux/kalilinux-original.svg',
+    'Burp Suite': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/portswigger.svg',
+    'Nessus': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-plain.svg',
+    'Metasploit': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kalilinux/kalilinux-original.svg',
+    'Wireshark': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/wireshark.svg',
+    'SOC 2': 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v9/icons/trustpilot.svg',
+  }
+
+  // Technologies that need dark mode inversion (black icons)
+  const darkModeInvert = ['SSL/TLS', 'OWASP', 'JWT', 'iOS', 'AWS', 'Oracle Cloud', 'Burp Suite', 'SOC 2', 'Puppeteer', 'Scikit-learn', 'Wireshark', 'Nessus']
+
+  // Helper function to render tech item (logo or text)
+  const renderTechItem = (techName: string) => {
+    const logoPath = techLogos[techName]
+    if (logoPath) {
+      const needsInvert = darkModeInvert.includes(techName)
+      return (
+        <div className="tech-item" key={techName}>
+          <img 
+            src={logoPath} 
+            alt={techName} 
+            className={`tech-logo ${needsInvert ? 'tech-logo-invert' : ''}`}
+            loading="lazy"
+          />
+          <span className="tech-name">{techName}</span>
+        </div>
+      )
+    }
+    return (
+      <div className="tech-text" key={techName}>{techName}</div>
+    )
+  }
+
+  // Technology categories with their tech stacks
+  const techCategories = [
+    {
+      title: 'Frontend Development',
+      techs: ['React', 'Vue.js', 'Angular', 'TypeScript', 'Next.js', 'Tailwind CSS']
+    },
+    {
+      title: 'Backend Development',
+      techs: ['Node.js', 'Python', 'Java', '.NET', 'Go', 'PHP']
+    },
+    {
+      title: 'Cloud & DevOps',
+      techs: ['AWS', 'Azure', 'Google Cloud', 'Oracle Cloud', 'Docker', 'Kubernetes']
+    },
+    {
+      title: 'Mobile Development',
+      techs: ['React Native', 'Flutter', 'iOS', 'Android', 'Swift', 'Kotlin']
+    },
+    {
+      title: 'Data & AI',
+      techs: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'PostgreSQL', 'MongoDB']
+    },
+    {
+      title: 'Database Solutions',
+      techs: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch', 'Firebase']
+    },
+    {
+      title: 'Testing & QA',
+      techs: ['Jest', 'Cypress', 'Selenium', 'JUnit', 'TestNG', 'Mocha', 'Postman', 'Playwright', 'Puppeteer']
+    },
+    {
+      title: 'Security & Compliance',
+      techs: ['OWASP', 'SSL/TLS', 'OAuth', 'JWT', 'Penetration Testing', 'Burp Suite', 'Nessus', 'Metasploit', 'Wireshark', 'SOC 2']
+    }
+  ]
+
   return (
     <div className="app">
       {/* Navigation */}
       <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
         <div className="nav-container">
           <div className="logo" onClick={() => scrollToSection('home')}>
-            <span className="logo-text">QUANTILIOM</span>
+            <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
           </div>
             <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
             <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home') }}>Home</a>
@@ -466,86 +583,17 @@ function Home() {
             </p>
           </div>
           <div className="tech-categories">
-            <div className="tech-category">
-              <h3>Frontend Development</h3>
-              <div className="tech-tags">
-                <span>React</span>
-                <span>Vue.js</span>
-                <span>Angular</span>
-                <span>TypeScript</span>
-                <span>Next.js</span>
+            {techCategories.map((category) => (
+              <div 
+                key={category.title} 
+                className={`tech-category ${category.techs.length > 6 ? 'scrollable' : ''}`}
+              >
+                <h3>{category.title}</h3>
+                <div className="tech-tags">
+                  {category.techs.map((tech) => renderTechItem(tech))}
+                </div>
               </div>
-            </div>
-            <div className="tech-category">
-              <h3>Backend Development</h3>
-              <div className="tech-tags">
-                <span>Node.js</span>
-                <span>Python</span>
-                <span>Java</span>
-                <span>.NET</span>
-                <span>Go</span>
-              </div>
-            </div>
-            <div className="tech-category">
-              <h3>Cloud & DevOps</h3>
-              <div className="tech-tags">
-                <span>AWS</span>
-                <span>Azure</span>
-                <span>Google Cloud</span>
-                <span>Docker</span>
-                <span>Kubernetes</span>
-              </div>
-            </div>
-            <div className="tech-category">
-              <h3>Mobile Development</h3>
-              <div className="tech-tags">
-                <span>React Native</span>
-                <span>Flutter</span>
-                <span>iOS</span>
-                <span>Android</span>
-                <span>Swift</span>
-              </div>
-            </div>
-            <div className="tech-category">
-              <h3>Data & AI</h3>
-              <div className="tech-tags">
-                <span>Python</span>
-                <span>TensorFlow</span>
-                <span>PyTorch</span>
-                <span>PostgreSQL</span>
-                <span>MongoDB</span>
-              </div>
-            </div>
-            <div className="tech-category">
-              <h3>Database Solutions</h3>
-              <div className="tech-tags">
-                <span>MySQL</span>
-                <span>PostgreSQL</span>
-                <span>MongoDB</span>
-                <span>Redis</span>
-                <span>Elasticsearch</span>
-              </div>
-            </div>
-            <div className="tech-category">
-              <h3>Testing & QA</h3>
-              <div className="tech-tags">
-                <span>Jest</span>
-                <span>Cypress</span>
-                <span>Selenium</span>
-                <span>JUnit</span>
-                <span>TestNG</span>
-              </div>
-            </div>
-            <div className="tech-category">
-              <h3>Security & Compliance</h3>
-              <div className="tech-tags">
-                <span>OWASP</span>
-                <span>SSL/TLS</span>
-                <span>OAuth</span>
-                <span>JWT</span>
-                <span>Penetration Testing</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -584,6 +632,14 @@ function Home() {
             <div className="industry-card">
               <h3>Logistics</h3>
               <p>Transportation management, warehouse systems, and supply chain optimization</p>
+            </div>
+            <div className="industry-card">
+              <h3>Real Estate</h3>
+              <p>Property management systems, CRM platforms, and real estate technology solutions</p>
+            </div>
+            <div className="industry-card">
+              <h3>Energy & Utilities</h3>
+              <p>Smart grid systems, energy management platforms, and utility infrastructure solutions</p>
             </div>
           </div>
         </div>
