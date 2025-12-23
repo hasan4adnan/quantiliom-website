@@ -1,0 +1,150 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import '../App.css'
+
+function Team() {
+  const [isDarkMode, setIsDarkMode] = useState(true)
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode)
+    document.documentElement.setAttribute('data-theme', !isDarkMode ? 'dark' : 'light')
+  }
+
+  return (
+    <div className="app">
+      <nav className="navbar scrolled">
+        <div className="nav-container">
+          <Link to="/" className="logo">
+            <span className="logo-text">QUANTILIOM</span>
+          </Link>
+          <div className="nav-menu">
+            <Link to="/">Home</Link>
+            <Link to="/services">Services</Link>
+            <Link to="/team" className="active">Team</Link>
+            <a href="/#about">About</a>
+            <Link to="/contact">Contact</Link>
+          </div>
+          <div className="nav-actions">
+            <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+              {isDarkMode ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <section className="team-page">
+        <div className="container">
+          <div className="section-header">
+            <div className="section-badge">OUR TEAM</div>
+            <h2 className="section-title">Meet the Experts</h2>
+            <p className="section-subtitle">
+              Our team consists of experienced software engineers, architects, designers, 
+              and consultants dedicated to delivering exceptional results.
+            </p>
+          </div>
+
+          <div className="team-grid">
+            <div className="team-member">
+              <div className="team-member-placeholder"></div>
+              <h3>Engineering Team</h3>
+              <p className="team-role">Software Engineers & Developers</p>
+              <p className="team-description">
+                Our engineering team brings years of experience in building scalable, 
+                secure, and high-performance software solutions across various technologies 
+                and platforms.
+              </p>
+            </div>
+            <div className="team-member">
+              <div className="team-member-placeholder"></div>
+              <h3>Architecture Team</h3>
+              <p className="team-role">Solution Architects & Technical Leads</p>
+              <p className="team-description">
+                Our architects design robust system architectures, ensuring scalability, 
+                maintainability, and alignment with business objectives.
+              </p>
+            </div>
+            <div className="team-member">
+              <div className="team-member-placeholder"></div>
+              <h3>Design Team</h3>
+              <p className="team-role">UI/UX Designers & Product Designers</p>
+              <p className="team-description">
+                Our design team creates intuitive, user-centered interfaces that enhance 
+                user experience and drive engagement.
+              </p>
+            </div>
+            <div className="team-member">
+              <div className="team-member-placeholder"></div>
+              <h3>Consulting Team</h3>
+              <p className="team-role">Business Analysts & Consultants</p>
+              <p className="team-description">
+                Our consultants bridge the gap between business needs and technical 
+                solutions, ensuring projects deliver measurable value.
+              </p>
+            </div>
+            <div className="team-member">
+              <div className="team-member-placeholder"></div>
+              <h3>DevOps Team</h3>
+              <p className="team-role">DevOps Engineers & Cloud Specialists</p>
+              <p className="team-description">
+                Our DevOps team ensures reliable deployments, scalable infrastructure, 
+                and continuous integration for seamless operations.
+              </p>
+            </div>
+            <div className="team-member">
+              <div className="team-member-placeholder"></div>
+              <h3>QA Team</h3>
+              <p className="team-role">Quality Assurance Engineers</p>
+              <p className="team-description">
+                Our QA team ensures the highest quality standards through comprehensive 
+                testing strategies and automated testing frameworks.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h3>QUANTILIOM</h3>
+              <p>Enterprise software solutions for the digital age.</p>
+            </div>
+            <div className="footer-section">
+              <h4>Company</h4>
+              <ul>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/services">Services</Link></li>
+                <li><Link to="/team">Team</Link></li>
+                <li><Link to="/contact">Contact</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>&copy; 2024 Quantiliom. Established 2023. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
+export default Team
+
+
