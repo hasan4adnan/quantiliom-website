@@ -6,6 +6,9 @@ import Team from './pages/Team'
 import Contact from './pages/Contact'
 import About from './pages/About'
 import ServiceDetail from './pages/ServiceDetail'
+import PageTransition from './components/PageTransition'
+import { TransitionProvider, useTransition } from './contexts/TransitionContext'
+import React from 'react'
 
 interface ServiceCategory {
   id: number
@@ -228,6 +231,39 @@ function Home() {
 
   const displayedServices = showAllServices ? services : services.slice(0, 6)
 
+  // Industry icons mapping - using CDN URLs from Iconify
+  const industryIcons: Record<string, string> = {
+    'Financial Services': 'https://api.iconify.design/mdi:bank.svg',
+    'Healthcare': 'https://api.iconify.design/mdi:medical-bag.svg',
+    'E-Commerce': 'https://api.iconify.design/mdi:shopping.svg',
+    'Manufacturing': 'https://api.iconify.design/mdi:factory.svg',
+    'Education': 'https://api.iconify.design/mdi:school.svg',
+    'Logistics': 'https://api.iconify.design/mdi:truck-delivery.svg',
+    'Real Estate': 'https://api.iconify.design/mdi:office-building.svg',
+    'Energy & Utilities': 'https://api.iconify.design/mdi:lightning-bolt.svg',
+  }
+
+  // Service icons mapping - using CDN URLs from Iconify
+  const serviceIcons: Record<number, string> = {
+    1: 'https://api.iconify.design/mdi:code-tags.svg', // Custom Software Development
+    2: 'https://api.iconify.design/mdi:cellphone.svg', // Web and Mobile Application Development
+    3: 'https://api.iconify.design/mdi:cloud.svg', // Cloud Solutions and DevOps
+    4: 'https://api.iconify.design/mdi:chart-box.svg', // Data, Analytics, and Business Intelligence
+    5: 'https://api.iconify.design/mdi:robot.svg', // Artificial Intelligence and Machine Learning
+    6: 'https://api.iconify.design/mdi:link-variant.svg', // Enterprise System Integration
+    7: 'https://api.iconify.design/mdi:shield-lock.svg', // Cybersecurity and Software Security
+    8: 'https://api.iconify.design/mdi:view-dashboard.svg', // Software Consulting and Architectural Design
+    9: 'https://api.iconify.design/mdi:check-circle.svg', // QA, Test Automation, and Quality Assurance
+    10: 'https://api.iconify.design/mdi:code-braces.svg', // Low-Code / No-Code Solutions
+    11: 'https://api.iconify.design/mdi:robot-industrial.svg', // Business Process Automation
+    12: 'https://api.iconify.design/mdi:palette.svg', // UI / UX and Digital Product Design
+    13: 'https://api.iconify.design/mdi:cloud-check.svg', // SaaS Product Development
+    14: 'https://api.iconify.design/mdi:briefcase.svg', // Industry-Specific Software Solutions
+    15: 'https://api.iconify.design/mdi:refresh.svg', // Legacy System Modernization
+    16: 'https://api.iconify.design/mdi:tools.svg', // Maintenance, Support, and Managed Services
+    17: 'https://api.iconify.design/mdi:book-open-variant.svg', // Technical Training and Documentation
+  }
+
   // Technology logo mapping - using CDN URLs with transparent backgrounds
   const techLogos: Record<string, string> = {
     'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
@@ -441,7 +477,17 @@ function Home() {
           <div className="services-grid-square">
             {displayedServices.map((service) => (
               <div key={service.id} className="service-card-square">
-                <h3 className="service-card-title">{service.title}</h3>
+                <div className="service-card-header">
+                  <div className="service-icon">
+                    <img 
+                      src={serviceIcons[service.id]} 
+                      alt={service.title} 
+                      className="service-icon-img"
+                      loading="lazy"
+                    />
+                  </div>
+                  <h3 className="service-card-title">{service.title}</h3>
+                </div>
                 <div className="service-card-items">
                   {service.items.slice(0, 3).map((item, index) => (
                     <div key={index} className="service-card-item">• {item}</div>
@@ -485,87 +531,103 @@ function Home() {
           </div>
           <div className="features-grid">
             <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+              <div className="feature-item-header">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+                <h3>Expert Team</h3>
               </div>
-              <h3>Expert Team</h3>
               <p>Our developers are experts in the latest technologies and best practices, bringing years of experience to every project.</p>
             </div>
             <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                </svg>
+              <div className="feature-item-header">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                  </svg>
+                </div>
+                <h3>Agile Methodology</h3>
               </div>
-              <h3>Agile Methodology</h3>
               <p>We work in sprints, ensuring rapid delivery, continuous improvement, and flexibility to adapt to changing requirements.</p>
             </div>
             <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                </svg>
+              <div className="feature-item-header">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  </svg>
+                </div>
+                <h3>Scalable Solutions</h3>
               </div>
-              <h3>Scalable Solutions</h3>
               <p>Build for today, scale for tomorrow with architecture that grows with your business needs and user base.</p>
             </div>
             <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
+              <div className="feature-item-header">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                </div>
+                <h3>24/7 Support</h3>
               </div>
-              <h3>24/7 Support</h3>
               <p>Round-the-clock assistance to keep your systems running smoothly, with dedicated support teams ready to help.</p>
             </div>
             <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 12l2 2 4-4"/>
-                  <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
-                  <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
-                  <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
-                  <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
-                </svg>
+              <div className="feature-item-header">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 12l2 2 4-4"/>
+                    <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                    <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                    <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
+                    <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
+                  </svg>
+                </div>
+                <h3>Security First</h3>
               </div>
-              <h3>Security First</h3>
               <p>Enterprise-grade security measures built into every solution, ensuring your data and systems are protected.</p>
             </div>
             <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
+              <div className="feature-item-header">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                </div>
+                <h3>Proven Track Record</h3>
               </div>
-              <h3>Proven Track Record</h3>
               <p>500+ successful projects delivered across various industries, demonstrating our ability to deliver results.</p>
             </div>
             <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                  <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
+              <div className="feature-item-header">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                </div>
+                <h3>Quality Assurance</h3>
               </div>
-              <h3>Quality Assurance</h3>
               <p>Rigorous testing and quality control processes ensure every solution meets the highest standards before delivery.</p>
             </div>
             <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-                  <line x1="9" y1="11" x2="9" y2="17"/>
-                  <line x1="12" y1="14" x2="12" y2="17"/>
-                  <line x1="15" y1="11" x2="15" y2="17"/>
-                </svg>
+              <div className="feature-item-header">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                    <line x1="9" y1="11" x2="9" y2="17"/>
+                    <line x1="12" y1="14" x2="12" y2="17"/>
+                    <line x1="15" y1="11" x2="15" y2="17"/>
+                  </svg>
+                </div>
+                <h3>Client-Centric Approach</h3>
               </div>
-              <h3>Client-Centric Approach</h3>
               <p>We prioritize understanding your business needs and work closely with you to ensure solutions align with your goals.</p>
             </div>
           </div>
@@ -610,35 +672,115 @@ function Home() {
           </div>
           <div className="industries-grid">
             <div className="industry-card">
-              <h3>Financial Services</h3>
+              <div className="industry-card-header">
+                <div className="industry-icon">
+                  <img 
+                    src={industryIcons['Financial Services']} 
+                    alt="Financial Services" 
+                    className="industry-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>Financial Services</h3>
+              </div>
               <p>Secure, compliant solutions for banking, insurance, and fintech companies</p>
             </div>
             <div className="industry-card">
-              <h3>Healthcare</h3>
+              <div className="industry-card-header">
+                <div className="industry-icon">
+                  <img 
+                    src={industryIcons['Healthcare']} 
+                    alt="Healthcare" 
+                    className="industry-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>Healthcare</h3>
+              </div>
               <p>HIPAA-compliant systems for hospitals, clinics, and healthtech platforms</p>
             </div>
             <div className="industry-card">
-              <h3>E-Commerce</h3>
+              <div className="industry-card-header">
+                <div className="industry-icon">
+                  <img 
+                    src={industryIcons['E-Commerce']} 
+                    alt="E-Commerce" 
+                    className="industry-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>E-Commerce</h3>
+              </div>
               <p>Scalable platforms for online retail, marketplaces, and digital commerce</p>
             </div>
             <div className="industry-card">
-              <h3>Manufacturing</h3>
+              <div className="industry-card-header">
+                <div className="industry-icon">
+                  <img 
+                    src={industryIcons['Manufacturing']} 
+                    alt="Manufacturing" 
+                    className="industry-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>Manufacturing</h3>
+              </div>
               <p>IoT integration, supply chain management, and industrial automation</p>
             </div>
             <div className="industry-card">
-              <h3>Education</h3>
+              <div className="industry-card-header">
+                <div className="industry-icon">
+                  <img 
+                    src={industryIcons['Education']} 
+                    alt="Education" 
+                    className="industry-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>Education</h3>
+              </div>
               <p>Learning management systems and educational technology platforms</p>
             </div>
             <div className="industry-card">
-              <h3>Logistics</h3>
+              <div className="industry-card-header">
+                <div className="industry-icon">
+                  <img 
+                    src={industryIcons['Logistics']} 
+                    alt="Logistics" 
+                    className="industry-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>Logistics</h3>
+              </div>
               <p>Transportation management, warehouse systems, and supply chain optimization</p>
             </div>
             <div className="industry-card">
-              <h3>Real Estate</h3>
+              <div className="industry-card-header">
+                <div className="industry-icon">
+                  <img 
+                    src={industryIcons['Real Estate']} 
+                    alt="Real Estate" 
+                    className="industry-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>Real Estate</h3>
+              </div>
               <p>Property management systems, CRM platforms, and real estate technology solutions</p>
             </div>
             <div className="industry-card">
-              <h3>Energy & Utilities</h3>
+              <div className="industry-card-header">
+                <div className="industry-icon">
+                  <img 
+                    src={industryIcons['Energy & Utilities']} 
+                    alt="Energy & Utilities" 
+                    className="industry-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <h3>Energy & Utilities</h3>
+              </div>
               <p>Smart grid systems, energy management platforms, and utility infrastructure solutions</p>
             </div>
           </div>
@@ -800,17 +942,63 @@ function Home() {
   )
 }
 
+function PageWrapper({ children }: { children: React.ReactNode }) {
+  const { isTransitioning } = useTransition()
+  const [shouldRender, setShouldRender] = useState(false)
+
+  useEffect(() => {
+    if (!isTransitioning) {
+      // Wait a tiny bit then show page with animation
+      const timer = setTimeout(() => {
+        setShouldRender(true)
+        document.body.classList.add('page-enter')
+        
+        // Remove class after animation completes
+        setTimeout(() => {
+          document.body.classList.remove('page-enter')
+        }, 600)
+      }, 50)
+      
+      return () => {
+        clearTimeout(timer)
+        setShouldRender(false)
+        document.body.classList.remove('page-enter')
+      }
+    } else {
+      // Hide page during transition
+      setShouldRender(false)
+    }
+  }, [isTransitioning])
+  
+  return (
+    <div style={{ opacity: shouldRender ? 1 : 0, transition: 'opacity 0.3s' }}>
+      {children}
+    </div>
+  )
+}
+
+function AppContent() {
+  return (
+    <>
+      <PageTransition />
+      <Routes>
+        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+        <Route path="/services" element={<PageWrapper><Services /></PageWrapper>} />
+        <Route path="/services/:id" element={<PageWrapper><ServiceDetail /></PageWrapper>} />
+        <Route path="/team" element={<PageWrapper><Team /></PageWrapper>} />
+        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
+        <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+      </Routes>
+    </>
+  )
+}
+
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/services/:id" element={<ServiceDetail />} />
-        <Route path="/team" element={<Team />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      <TransitionProvider>
+        <AppContent />
+      </TransitionProvider>
     </Router>
   )
 }

@@ -2,6 +2,16 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../App.css'
 
+// Team icons mapping - using CDN URLs from Iconify
+const teamIcons: Record<string, string> = {
+  'Engineering Team': 'https://api.iconify.design/mdi:code-tags.svg',
+  'Architecture Team': 'https://api.iconify.design/mdi:view-dashboard.svg',
+  'Design Team': 'https://api.iconify.design/mdi:palette.svg',
+  'Consulting Team': 'https://api.iconify.design/mdi:briefcase.svg',
+  'DevOps Team': 'https://api.iconify.design/mdi:cloud.svg',
+  'QA Team': 'https://api.iconify.design/mdi:check-circle.svg',
+}
+
 function Team() {
   const [isDarkMode, setIsDarkMode] = useState(true)
 
@@ -61,7 +71,14 @@ function Team() {
 
           <div className="team-grid">
             <div className="team-member">
-              <div className="team-member-placeholder"></div>
+              <div className="team-member-icon">
+                <img 
+                  src={teamIcons['Engineering Team']} 
+                  alt="Engineering Team" 
+                  className="team-member-icon-img"
+                  loading="lazy"
+                />
+              </div>
               <h3>Engineering Team</h3>
               <p className="team-role">Software Engineers & Developers</p>
               <p className="team-description">
@@ -71,7 +88,14 @@ function Team() {
               </p>
             </div>
             <div className="team-member">
-              <div className="team-member-placeholder"></div>
+              <div className="team-member-icon">
+                <img 
+                  src={teamIcons['Architecture Team']} 
+                  alt="Architecture Team" 
+                  className="team-member-icon-img"
+                  loading="lazy"
+                />
+              </div>
               <h3>Architecture Team</h3>
               <p className="team-role">Solution Architects & Technical Leads</p>
               <p className="team-description">
@@ -80,7 +104,14 @@ function Team() {
               </p>
             </div>
             <div className="team-member">
-              <div className="team-member-placeholder"></div>
+              <div className="team-member-icon">
+                <img 
+                  src={teamIcons['Design Team']} 
+                  alt="Design Team" 
+                  className="team-member-icon-img"
+                  loading="lazy"
+                />
+              </div>
               <h3>Design Team</h3>
               <p className="team-role">UI/UX Designers & Product Designers</p>
               <p className="team-description">
@@ -89,7 +120,14 @@ function Team() {
               </p>
             </div>
             <div className="team-member">
-              <div className="team-member-placeholder"></div>
+              <div className="team-member-icon">
+                <img 
+                  src={teamIcons['Consulting Team']} 
+                  alt="Consulting Team" 
+                  className="team-member-icon-img"
+                  loading="lazy"
+                />
+              </div>
               <h3>Consulting Team</h3>
               <p className="team-role">Business Analysts & Consultants</p>
               <p className="team-description">
@@ -98,7 +136,14 @@ function Team() {
               </p>
             </div>
             <div className="team-member">
-              <div className="team-member-placeholder"></div>
+              <div className="team-member-icon">
+                <img 
+                  src={teamIcons['DevOps Team']} 
+                  alt="DevOps Team" 
+                  className="team-member-icon-img"
+                  loading="lazy"
+                />
+              </div>
               <h3>DevOps Team</h3>
               <p className="team-role">DevOps Engineers & Cloud Specialists</p>
               <p className="team-description">
@@ -107,7 +152,14 @@ function Team() {
               </p>
             </div>
             <div className="team-member">
-              <div className="team-member-placeholder"></div>
+              <div className="team-member-icon">
+                <img 
+                  src={teamIcons['QA Team']} 
+                  alt="QA Team" 
+                  className="team-member-icon-img"
+                  loading="lazy"
+                />
+              </div>
               <h3>QA Team</h3>
               <p className="team-role">Quality Assurance Engineers</p>
               <p className="team-description">

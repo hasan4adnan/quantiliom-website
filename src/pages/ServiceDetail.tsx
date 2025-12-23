@@ -11,6 +11,48 @@ interface ServiceData {
   benefits: string[]
 }
 
+// Professional landscape images for each service from Unsplash
+const serviceImages: Record<number, string> = {
+  1: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80', // Custom Software Development - code/development
+  2: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1920&q=80', // Web and Mobile - mobile devices
+  3: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80', // Cloud Solutions - cloud/tech infrastructure
+  4: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80', // Data Analytics - data visualization
+  5: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1920&q=80', // AI/ML - AI/technology
+  6: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80', // Enterprise Integration - network/connections
+  7: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1920&q=80', // Cybersecurity - security/lock
+  8: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80', // Consulting - architecture/planning
+  9: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80', // QA Testing - testing/quality
+  10: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1920&q=80', // Low-Code - rapid development
+  11: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1920&q=80', // Automation - automation/robotics
+  12: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1920&q=80', // UI/UX Design - design/creative
+  13: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80', // SaaS - cloud services
+  14: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=80', // Industry-Specific - business/industry
+  15: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80', // Legacy Modernization - transformation
+  16: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80', // Maintenance - support/services
+  17: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=1920&q=80', // Training - education/learning
+}
+
+// Service icons mapping
+const serviceIcons: Record<number, string> = {
+  1: 'https://api.iconify.design/mdi:code-tags.svg',
+  2: 'https://api.iconify.design/mdi:cellphone.svg',
+  3: 'https://api.iconify.design/mdi:cloud.svg',
+  4: 'https://api.iconify.design/mdi:chart-box.svg',
+  5: 'https://api.iconify.design/mdi:robot.svg',
+  6: 'https://api.iconify.design/mdi:link-variant.svg',
+  7: 'https://api.iconify.design/mdi:shield-lock.svg',
+  8: 'https://api.iconify.design/mdi:view-dashboard.svg',
+  9: 'https://api.iconify.design/mdi:check-circle.svg',
+  10: 'https://api.iconify.design/mdi:code-braces.svg',
+  11: 'https://api.iconify.design/mdi:robot-industrial.svg',
+  12: 'https://api.iconify.design/mdi:palette.svg',
+  13: 'https://api.iconify.design/mdi:cloud-check.svg',
+  14: 'https://api.iconify.design/mdi:briefcase.svg',
+  15: 'https://api.iconify.design/mdi:refresh.svg',
+  16: 'https://api.iconify.design/mdi:tools.svg',
+  17: 'https://api.iconify.design/mdi:book-open-variant.svg',
+}
+
 const serviceData: Record<number, ServiceData> = {
   1: {
     id: 1,
@@ -410,44 +452,104 @@ function ServiceDetail() {
         </div>
       </nav>
 
+      {/* Hero Section with Image */}
+      <section className="service-detail-hero">
+        <div className="service-detail-hero-image">
+          <img src={serviceImages[service.id]} alt={service.title} loading="eager" />
+          <div className="service-detail-hero-overlay"></div>
+        </div>
+        <div className="container">
+          <div className="service-detail-hero-content">
+            <Link to="/services" className="service-detail-back-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Back to Services
+            </Link>
+            <div className="service-detail-hero-header">
+              <h1 className="service-detail-hero-title">{service.title}</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
       <section className="service-detail-page">
         <div className="container">
-          <div className="service-detail-header">
-            <Link to="/services" className="back-link">← Back to Services</Link>
-            <h1 className="service-detail-title">{service.title}</h1>
-          </div>
-
-          <div className="service-detail-content">
-            <div className="service-detail-section">
-              <h2>Overview</h2>
+          {/* Overview Section */}
+          <div className="service-detail-section service-detail-overview">
+            <div className="service-detail-section-header">
+              <h2 className="service-detail-section-title">Overview</h2>
+            </div>
+            <div className="service-detail-section-content">
               <p className="service-description">{service.description}</p>
             </div>
+          </div>
 
-            <div className="service-detail-section">
-              <h2>When It's Needed</h2>
+          {/* When It's Needed Section */}
+          <div className="service-detail-section service-detail-when-needed">
+            <div className="service-detail-section-header">
+              <h2 className="service-detail-section-title">When It's Needed</h2>
+            </div>
+            <div className="service-detail-section-content">
               <p className="service-when-needed">{service.whenNeeded}</p>
             </div>
+          </div>
 
-            <div className="service-detail-section">
-              <h2>Key Benefits</h2>
-              <ul className="service-benefits">
-                {service.benefits.map((benefit, index) => (
-                  <li key={index}>{benefit}</li>
-                ))}
-              </ul>
+          {/* Key Benefits Section */}
+          <div className="service-detail-section service-detail-benefits">
+            <div className="service-detail-section-header">
+              <h2 className="service-detail-section-title">Key Benefits</h2>
             </div>
-
-            <div className="service-detail-section">
-              <h2>What We Offer</h2>
-              <ul className="service-items-list">
-                {service.items.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
+            <div className="service-benefits-grid">
+              {service.benefits.map((benefit, index) => (
+                <div key={index} className="service-benefit-card">
+                  <div className="service-benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                  <p className="service-benefit-text">{benefit}</p>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="service-detail-cta">
-              <Link to="/contact" className="btn btn-primary">Get Started</Link>
+          {/* What We Offer Section */}
+          <div className="service-detail-section service-detail-offerings">
+            <div className="service-detail-section-header">
+              <h2 className="service-detail-section-title">What We Offer</h2>
+            </div>
+            <div className="service-offerings-grid">
+              {service.items.map((item, index) => (
+                <div key={index} className="service-offering-item">
+                  <div className="service-offering-bullet"></div>
+                  <span className="service-offering-text">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA Section */}
+          <div className="service-detail-cta-section">
+            <div className="service-detail-cta-content">
+              <h3 className="service-detail-cta-title">Ready to Get Started?</h3>
+              <p className="service-detail-cta-description">
+                Let's discuss how {service.title.toLowerCase()} can transform your business.
+              </p>
+              <div className="service-detail-cta-buttons">
+                <Link to="/contact" className="btn btn-primary btn-large">
+                  Schedule a Consultation
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </Link>
+                <Link to="/services" className="btn btn-secondary btn-large">
+                  Explore Other Services
+                </Link>
+              </div>
             </div>
           </div>
         </div>

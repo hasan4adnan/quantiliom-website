@@ -8,6 +8,27 @@ interface ServiceCategory {
   items: string[]
 }
 
+// Service icons mapping - using CDN URLs from Iconify
+const serviceIcons: Record<number, string> = {
+  1: 'https://api.iconify.design/mdi:code-tags.svg', // Custom Software Development
+  2: 'https://api.iconify.design/mdi:cellphone.svg', // Web and Mobile Application Development
+  3: 'https://api.iconify.design/mdi:cloud.svg', // Cloud Solutions and DevOps
+  4: 'https://api.iconify.design/mdi:chart-box.svg', // Data, Analytics, and Business Intelligence
+  5: 'https://api.iconify.design/mdi:robot.svg', // Artificial Intelligence and Machine Learning
+  6: 'https://api.iconify.design/mdi:link-variant.svg', // Enterprise System Integration
+  7: 'https://api.iconify.design/mdi:shield-lock.svg', // Cybersecurity and Software Security
+  8: 'https://api.iconify.design/mdi:view-dashboard.svg', // Software Consulting and Architectural Design
+  9: 'https://api.iconify.design/mdi:check-circle.svg', // QA, Test Automation, and Quality Assurance
+  10: 'https://api.iconify.design/mdi:code-braces.svg', // Low-Code / No-Code Solutions
+  11: 'https://api.iconify.design/mdi:robot-industrial.svg', // Business Process Automation
+  12: 'https://api.iconify.design/mdi:palette.svg', // UI / UX and Digital Product Design
+  13: 'https://api.iconify.design/mdi:cloud-check.svg', // SaaS Product Development
+  14: 'https://api.iconify.design/mdi:briefcase.svg', // Industry-Specific Software Solutions
+  15: 'https://api.iconify.design/mdi:refresh.svg', // Legacy System Modernization
+  16: 'https://api.iconify.design/mdi:tools.svg', // Maintenance, Support, and Managed Services
+  17: 'https://api.iconify.design/mdi:book-open-variant.svg', // Technical Training and Documentation
+}
+
 const services: ServiceCategory[] = [
   {
     id: 1,
@@ -192,7 +213,6 @@ const services: ServiceCategory[] = [
 ]
 
 function Services() {
-  const [expandedCategory, setExpandedCategory] = useState<number | null>(null)
   const [isDarkMode, setIsDarkMode] = useState(true)
 
   const toggleTheme = () => {
@@ -252,35 +272,35 @@ function Services() {
             </p>
           </div>
           
-          <div className="services-grid">
+          <div className="services-grid-boxes">
             {services.map((service) => (
-              <div 
-                key={service.id} 
-                className={`service-category ${expandedCategory === service.id ? 'expanded' : ''}`}
-                onClick={() => setExpandedCategory(expandedCategory === service.id ? null : service.id)}
-              >
-                <div className="service-category-header">
-                  <h3 className="service-category-title">{service.title}</h3>
-                  <div className="service-category-toggle">
-                    <svg 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="2"
-                      className={expandedCategory === service.id ? 'rotated' : ''}
-                    >
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
+              <div key={service.id} className="service-box">
+                <div className="service-box-header">
+                  <div className="service-box-icon">
+                    <img 
+                      src={serviceIcons[service.id]} 
+                      alt={service.title} 
+                      className="service-box-icon-img"
+                      loading="lazy"
+                    />
                   </div>
+                  <h3 className="service-box-title">{service.title}</h3>
                 </div>
-                <div className="service-category-content">
-                  <ul className="service-items">
+                <div className="service-box-content">
+                  <ul className="service-box-items">
                     {service.items.map((item, index) => (
-                      <li key={index}>
-                        <Link to={`/services/${service.id}`}>{item}</Link>
-                      </li>
+                      <li key={index}>{item}</li>
                     ))}
                   </ul>
+                </div>
+                <div className="service-box-footer">
+                  <Link to={`/services/${service.id}`} className="service-box-button">
+                    View for More Information
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </Link>
                 </div>
               </div>
             ))}
