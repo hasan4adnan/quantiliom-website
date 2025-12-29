@@ -573,7 +573,7 @@ function ServiceDetail() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 Quantiliom. Established 2023. All rights reserved.</p>
+            <p>&copy; 2025 Quantiliom. All rights reserved.</p>
           </div>
         </div>
       </footer>
