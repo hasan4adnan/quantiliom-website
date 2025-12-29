@@ -9,8 +9,9 @@ function PageTransition() {
   const [progress, setProgress] = useState(0)
   const prevLocationRef = useRef(location.pathname)
   const isFirstRender = useRef(true)
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const progressIntervalRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
 
   useEffect(() => {
     // Skip transition on initial render

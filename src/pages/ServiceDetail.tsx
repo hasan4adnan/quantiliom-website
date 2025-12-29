@@ -468,6 +468,15 @@ function ServiceDetail() {
               Back to Services
             </Link>
             <div className="service-detail-hero-header">
+              {/* Service icon displayed in hero header for visual context and consistency with Services listing page */}
+              <div className="service-detail-hero-icon">
+                <img 
+                  src={serviceIcons[service.id]} 
+                  alt={`${service.title} icon`} 
+                  className="service-detail-hero-icon-img"
+                  loading="eager"
+                />
+              </div>
               <h1 className="service-detail-hero-title">{service.title}</h1>
             </div>
           </div>
