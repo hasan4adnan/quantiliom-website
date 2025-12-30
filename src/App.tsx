@@ -31,6 +31,18 @@ function Home() {
   }, [])
 
   useEffect(() => {
+    // Prevent body scroll when menu is open
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
   }, [isDarkMode])
 
@@ -390,7 +402,7 @@ function Home() {
             <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
           </div>
             <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-            <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home') }}>Home</a>
+            <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); setIsMenuOpen(false); }}>Home</a>
             <Link to="/services" onClick={() => setIsMenuOpen(false)}>Services</Link>
             <Link to="/team" onClick={() => setIsMenuOpen(false)}>Team</Link>
             <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
@@ -416,13 +428,15 @@ function Home() {
                 </svg>
               )}
             </button>
-            <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <button className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               <span></span>
               <span></span>
               <span></span>
             </button>
           </div>
         </div>
+        {/* Mobile Menu Overlay */}
+        <div className={`nav-menu-overlay ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
       </nav>
 
       {/* Hero Section */}

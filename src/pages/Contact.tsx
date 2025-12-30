@@ -1,13 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../App.css'
 
 function Contact() {
   const [isDarkMode, setIsDarkMode] = useState(true)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
+  }, [isDarkMode])
+
+  useEffect(() => {
+    // Prevent body scroll when menu is open
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMenuOpen])
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode)
-    document.documentElement.setAttribute('data-theme', !isDarkMode ? 'dark' : 'light')
   }
 
   return (
@@ -17,12 +33,12 @@ function Contact() {
           <Link to="/" className="logo">
             <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
           </Link>
-          <div className="nav-menu">
-            <Link to="/">Home</Link>
-            <Link to="/services">Services</Link>
-            <Link to="/team">Team</Link>
-            <a href="/#about">About</a>
-            <Link to="/contact" className="active">Contact</Link>
+          <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+            <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
+            <Link to="/services" onClick={() => setIsMenuOpen(false)}>Services</Link>
+            <Link to="/team" onClick={() => setIsMenuOpen(false)}>Team</Link>
+            <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
+            <Link to="/contact" className="active" onClick={() => setIsMenuOpen(false)}>Contact</Link>
           </div>
           <div className="nav-actions">
             <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
@@ -44,8 +60,15 @@ function Contact() {
                 </svg>
               )}
             </button>
+            <button className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
           </div>
         </div>
+        {/* Mobile Menu Overlay */}
+        <div className={`nav-menu-overlay ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
       </nav>
 
       <section className="contact-page">
