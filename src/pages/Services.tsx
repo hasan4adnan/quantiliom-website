@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../App.css'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
 
 interface ServiceCategory {
   id: number
@@ -213,12 +215,9 @@ const services: ServiceCategory[] = [
 ]
 
 function Services() {
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const { theme, toggleTheme } = useTheme()
+  const isDarkMode = theme === 'dark'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
-  }, [isDarkMode])
 
   useEffect(() => {
     // Prevent body scroll when menu is open
@@ -232,24 +231,26 @@ function Services() {
     }
   }, [isMenuOpen])
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
-
   return (
     <div className="app">
+      <SEO 
+        title="Our Services"
+        description="Comprehensive software solutions from Quantiliom. We offer a complete range of software development and consulting services tailored to enterprise needs."
+        canonical="https://quantiliom.com/services"
+      />
+      <StructuredData type="page" pageTitle="Our Services" breadcrumbs={[{ name: 'Home', url: 'https://quantiliom.com/' }, { name: 'Services', url: 'https://quantiliom.com/services' }]} />
       {/* Navigation */}
       <nav className="navbar scrolled">
         <div className="nav-container">
-          <Link to="/" className="logo">
+          <a href="/" className="logo">
             <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
-          </Link>
+          </a>
           <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-            <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            <Link to="/services" className="active" onClick={() => setIsMenuOpen(false)}>Services</Link>
-            <Link to="/team" onClick={() => setIsMenuOpen(false)}>Team</Link>
-            <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
-            <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+            <a href="/">Home</a>
+            <a href="/services" className="active">Services</a>
+            <a href="/team">Team</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
           </div>
           <div className="nav-actions">
             <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
@@ -287,7 +288,7 @@ function Services() {
         <div className="container">
           <div className="section-header">
             <div className="section-badge">OUR CAPABILITIES</div>
-            <h2 className="section-title">Comprehensive Software Solutions</h2>
+            <h1 className="section-title">Comprehensive Software Solutions</h1>
             <p className="section-subtitle">
               We offer a complete range of software development and consulting services 
               tailored to enterprise needs. From custom development to AI/ML solutions, 
@@ -317,13 +318,13 @@ function Services() {
                   </ul>
                 </div>
                 <div className="service-box-footer">
-                  <Link to={`/services/${service.id}`} className="service-box-button">
+                  <a href={`/services/${service.id}`} className="service-box-button">
                     View for More Information
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
-                  </Link>
+                  </a>
                 </div>
               </div>
             ))}
@@ -342,17 +343,18 @@ function Services() {
             <div className="footer-section">
               <h4>Services</h4>
               <ul>
-                <li><Link to="/services">Custom Development</Link></li>
-                <li><Link to="/services">Cloud Solutions</Link></li>
-                <li><Link to="/services">AI/ML Services</Link></li>
-                <li><Link to="/services">Consulting</Link></li>
+                <li><a href="/services">Custom Development</a></li>
+                <li><a href="/services">Cloud Solutions</a></li>
+                <li><a href="/services">AI/ML Services</a></li>
+                <li><a href="/services">Consulting</a></li>
               </ul>
             </div>
             <div className="footer-section">
               <h4>Company</h4>
               <ul>
-                <li><a href="/#about">About Us</a></li>
-                <li><a href="/#contact">Contact</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/team">Team</a></li>
+                <li><a href="/contact">Contact</a></li>
               </ul>
             </div>
           </div>

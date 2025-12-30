@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../App.css'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
+import { useTheme } from '../contexts/ThemeContext'
 
 function About() {
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const { theme, toggleTheme } = useTheme()
+  const isDarkMode = theme === 'dark'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
-  }, [isDarkMode])
 
   useEffect(() => {
     // Prevent body scroll when menu is open
@@ -22,23 +22,25 @@ function About() {
     }
   }, [isMenuOpen])
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
-
   return (
     <div className="app">
+      <SEO 
+        title="About Us"
+        description="Learn about Quantiliom - a leading software solutions company specializing in enterprise-grade software development, cloud infrastructure, and digital transformation services."
+        canonical="https://quantiliom.com/about"
+      />
+      <StructuredData type="page" pageTitle="About Us" breadcrumbs={[{ name: 'Home', url: 'https://quantiliom.com/' }, { name: 'About', url: 'https://quantiliom.com/about' }]} />
       <nav className="navbar scrolled">
         <div className="nav-container">
-          <Link to="/" className="logo">
+          <a href="/" className="logo">
             <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
-          </Link>
+          </a>
           <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-            <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            <Link to="/services" onClick={() => setIsMenuOpen(false)}>Services</Link>
-            <Link to="/team" onClick={() => setIsMenuOpen(false)}>Team</Link>
-            <Link to="/about" className="active" onClick={() => setIsMenuOpen(false)}>About</Link>
-            <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+            <a href="/">Home</a>
+            <a href="/services">Services</a>
+            <a href="/team">Team</a>
+            <a href="/about" className="active">About</a>
+            <a href="/contact">Contact</a>
           </div>
           <div className="nav-actions">
             <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">

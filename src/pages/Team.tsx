@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../App.css'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
+import { useTheme } from '../contexts/ThemeContext'
 
 // Team icons mapping - using CDN URLs from Iconify
 const teamIcons: Record<string, string> = {
@@ -13,12 +16,9 @@ const teamIcons: Record<string, string> = {
 }
 
 function Team() {
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const { theme, toggleTheme } = useTheme()
+  const isDarkMode = theme === 'dark'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
-  }, [isDarkMode])
 
   useEffect(() => {
     // Prevent body scroll when menu is open
@@ -32,23 +32,25 @@ function Team() {
     }
   }, [isMenuOpen])
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
-
   return (
     <div className="app">
+      <SEO 
+        title="Our Team"
+        description="Meet the experts at Quantiliom. Our team consists of experienced software engineers, architects, designers, and consultants dedicated to delivering exceptional results."
+        canonical="https://quantiliom.com/team"
+      />
+      <StructuredData type="page" pageTitle="Our Team" breadcrumbs={[{ name: 'Home', url: 'https://quantiliom.com/' }, { name: 'Team', url: 'https://quantiliom.com/team' }]} />
       <nav className="navbar scrolled">
         <div className="nav-container">
-          <Link to="/" className="logo">
+          <a href="/" className="logo">
             <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
-          </Link>
+          </a>
           <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-            <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            <Link to="/services" onClick={() => setIsMenuOpen(false)}>Services</Link>
-            <Link to="/team" className="active" onClick={() => setIsMenuOpen(false)}>Team</Link>
-            <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
-            <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+            <a href="/">Home</a>
+            <a href="/services">Services</a>
+            <a href="/team" className="active">Team</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
           </div>
           <div className="nav-actions">
             <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
@@ -85,7 +87,7 @@ function Team() {
         <div className="container">
           <div className="section-header">
             <div className="section-badge">OUR TEAM</div>
-            <h2 className="section-title">Meet the Experts</h2>
+            <h1 className="section-title">Meet the Experts</h1>
             <p className="section-subtitle">
               Our team consists of experienced software engineers, architects, designers, 
               and consultants dedicated to delivering exceptional results.

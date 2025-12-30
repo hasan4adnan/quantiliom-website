@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import '../App.css'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
+import { useTheme } from '../contexts/ThemeContext'
 
 interface ServiceData {
   id: number
@@ -393,12 +396,9 @@ function ServiceDetail() {
   const { id } = useParams<{ id: string }>()
   const serviceId = id ? parseInt(id, 10) : 0
   const service = serviceData[serviceId]
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const { theme, toggleTheme } = useTheme()
+  const isDarkMode = theme === 'dark'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
-  }, [isDarkMode])
 
   useEffect(() => {
     // Prevent body scroll when menu is open
@@ -412,16 +412,12 @@ function ServiceDetail() {
     }
   }, [isMenuOpen])
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
-
   if (!service) {
     return (
       <div className="app">
         <div className="container" style={{ paddingTop: '8rem', textAlign: 'center' }}>
           <h2>Service not found</h2>
-          <Link to="/services">Back to Services</Link>
+          <a href="/services">Back to Services</a>
         </div>
       </div>
     )
@@ -429,17 +425,31 @@ function ServiceDetail() {
 
   return (
     <div className="app">
+      <SEO 
+        title={service.title}
+        description={service.description}
+        canonical={`https://quantiliom.com/services/${service.id}`}
+      />
+      <StructuredData 
+        type="page" 
+        pageTitle={service.title}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://quantiliom.com/' },
+          { name: 'Services', url: 'https://quantiliom.com/services' },
+          { name: service.title, url: `https://quantiliom.com/services/${service.id}` }
+        ]}
+      />
       <nav className="navbar scrolled">
         <div className="nav-container">
-          <Link to="/" className="logo">
+          <a href="/" className="logo">
             <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
-          </Link>
+          </a>
           <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-            <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            <Link to="/services" onClick={() => setIsMenuOpen(false)}>Services</Link>
-            <Link to="/team" onClick={() => setIsMenuOpen(false)}>Team</Link>
-            <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
-            <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+            <a href="/">Home</a>
+            <a href="/services">Services</a>
+            <a href="/team">Team</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
           </div>
           <div className="nav-actions">
             <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
@@ -480,13 +490,13 @@ function ServiceDetail() {
         </div>
         <div className="container">
           <div className="service-detail-hero-content">
-            <Link to="/services" className="service-detail-back-link">
+            <a href="/services" className="service-detail-back-link">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
               </svg>
               Back to Services
-            </Link>
+            </a>
             <div className="service-detail-hero-header">
               {/* Service icon displayed in hero header for visual context and consistency with Services listing page */}
               <div className="service-detail-hero-icon">
@@ -568,16 +578,16 @@ function ServiceDetail() {
                 Let's discuss how {service.title.toLowerCase()} can transform your business.
               </p>
               <div className="service-detail-cta-buttons">
-                <Link to="/contact" className="btn btn-primary btn-large">
+                <a href="/contact" className="btn btn-primary btn-large">
                   Schedule a Consultation
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
-                </Link>
-                <Link to="/services" className="btn btn-secondary btn-large">
+                </a>
+                <a href="/services" className="btn btn-secondary btn-large">
                   Explore Other Services
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -594,10 +604,10 @@ function ServiceDetail() {
             <div className="footer-section">
               <h4>Company</h4>
               <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/services">Services</Link></li>
-                <li><Link to="/team">Team</Link></li>
-                <li><Link to="/contact">Contact</Link></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/team">Team</a></li>
+                <li><a href="/contact">Contact</a></li>
               </ul>
             </div>
           </div>

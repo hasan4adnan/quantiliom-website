@@ -8,6 +8,10 @@ import About from './pages/About'
 import ServiceDetail from './pages/ServiceDetail'
 import PageTransition from './components/PageTransition'
 import { TransitionProvider, useTransition } from './contexts/TransitionContext'
+import SEO from './components/SEO'
+import StructuredData from './components/StructuredData'
+import CookieConsent from './components/CookieConsent'
+import { useTheme } from './contexts/ThemeContext'
 import React from 'react'
 
 interface ServiceCategory {
@@ -19,7 +23,8 @@ interface ServiceCategory {
 function Home() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const { theme, toggleTheme } = useTheme()
+  const isDarkMode = theme === 'dark'
   const [showAllServices, setShowAllServices] = useState(false)
 
   useEffect(() => {
@@ -42,13 +47,6 @@ function Home() {
     }
   }, [isMenuOpen])
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
-  }, [isDarkMode])
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -395,18 +393,24 @@ function Home() {
 
   return (
     <div className="app">
+      <SEO 
+        title="Home"
+        description="Quantiliom - Innovative software solutions for the digital age. Custom development, cloud solutions, and expert consulting. Delivering excellence in software development."
+        canonical="https://quantiliom.com/"
+      />
+      <StructuredData type="home" />
       {/* Navigation */}
       <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
         <div className="nav-container">
-          <div className="logo" onClick={() => scrollToSection('home')}>
+          <a href="/" className="logo" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>
             <img src="/quantiliom-logo.png" alt="Quantiliom" className="logo-img" />
-          </div>
+          </a>
             <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-            <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); setIsMenuOpen(false); }}>Home</a>
-            <Link to="/services" onClick={() => setIsMenuOpen(false)}>Services</Link>
-            <Link to="/team" onClick={() => setIsMenuOpen(false)}>Team</Link>
-            <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
-            <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+            <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection('home'); setIsMenuOpen(false); }}>Home</a>
+            <a href="/services">Services</a>
+            <a href="/team">Team</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
           </div>
           <div className="nav-actions">
             <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
@@ -468,10 +472,10 @@ function Home() {
             </div>
           </div>
           <div className="hero-buttons">
-            <Link to="/services" className="btn btn-primary" style={{ textDecoration: 'none', display: 'inline-block' }}>Explore Services</Link>
-            <Link to="/contact" className="btn btn-secondary" style={{ textDecoration: 'none', display: 'inline-block' }}>
+            <a href="/services" className="btn btn-primary" style={{ textDecoration: 'none', display: 'inline-block' }}>Explore Services</a>
+            <a href="/contact" className="btn btn-secondary" style={{ textDecoration: 'none', display: 'inline-block' }}>
               Schedule Consultation
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -510,7 +514,7 @@ function Home() {
                     <div className="service-card-more">+{service.items.length - 3} more</div>
                   )}
                 </div>
-                <Link to={`/services/${service.id}`} className="service-card-link">Learn More →</Link>
+                <a href={`/services/${service.id}`} className="service-card-link">Learn More →</a>
               </div>
             ))}
           </div>
@@ -525,9 +529,9 @@ function Home() {
 
           {showAllServices && (
             <div className="services-show-more">
-              <Link to="/services" className="btn btn-primary">
+              <a href="/services" className="btn btn-primary">
                 View All Services in Detail →
-              </Link>
+              </a>
             </div>
           )}
         </div>
@@ -822,7 +826,7 @@ function Home() {
                 we partner with our clients to ensure long-term success.
               </p>
               <div className="about-cta-inline">
-                <Link to="/about" className="btn btn-secondary">Learn More About Us</Link>
+                <a href="/about" className="btn btn-secondary">Learn More About Us</a>
               </div>
             </div>
           </div>
@@ -879,7 +883,7 @@ function Home() {
               </div>
             </div>
             <div className="contact-cta">
-              <Link to="/contact" className="btn btn-primary">Contact Us</Link>
+              <a href="/contact" className="btn btn-primary">Contact Us</a>
             </div>
           </div>
         </div>
@@ -907,6 +911,34 @@ function Home() {
         </div>
       </section>
 
+      {/* Site Navigation Section - Prominent links for sitelinks */}
+      <section className="site-navigation-section" style={{ padding: '4rem 0', backgroundColor: 'var(--bg-secondary, #f5f5f5)' }}>
+        <div className="container">
+          <nav aria-label="Main site navigation">
+            <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '2rem' }}>Explore Quantiliom</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+              <div>
+                <h3 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Services</h3>
+                <ul style={{ listStyle: 'none', padding: 0 }}>
+                  <li style={{ marginBottom: '0.5rem' }}><a href="/services" style={{ textDecoration: 'none', color: 'var(--text-primary)' }}>All Services</a></li>
+                  <li style={{ marginBottom: '0.5rem' }}><a href="/services/1" style={{ textDecoration: 'none', color: 'var(--text-primary)' }}>Custom Development</a></li>
+                  <li style={{ marginBottom: '0.5rem' }}><a href="/services/3" style={{ textDecoration: 'none', color: 'var(--text-primary)' }}>Cloud Solutions</a></li>
+                  <li style={{ marginBottom: '0.5rem' }}><a href="/services/5" style={{ textDecoration: 'none', color: 'var(--text-primary)' }}>AI/ML Services</a></li>
+                </ul>
+              </div>
+              <div>
+                <h3 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Company</h3>
+                <ul style={{ listStyle: 'none', padding: 0 }}>
+                  <li style={{ marginBottom: '0.5rem' }}><a href="/about" style={{ textDecoration: 'none', color: 'var(--text-primary)' }}>About Us</a></li>
+                  <li style={{ marginBottom: '0.5rem' }}><a href="/team" style={{ textDecoration: 'none', color: 'var(--text-primary)' }}>Our Team</a></li>
+                  <li style={{ marginBottom: '0.5rem' }}><a href="/contact" style={{ textDecoration: 'none', color: 'var(--text-primary)' }}>Contact</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="footer">
         <div className="container">
@@ -918,17 +950,18 @@ function Home() {
             <div className="footer-section">
               <h4>Services</h4>
               <ul>
-                <li><Link to="/services">Custom Development</Link></li>
-                <li><Link to="/services">Cloud Solutions</Link></li>
-                <li><Link to="/services">AI/ML Services</Link></li>
-                <li><Link to="/services">Consulting</Link></li>
+                <li><a href="/services">Custom Development</a></li>
+                <li><a href="/services">Cloud Solutions</a></li>
+                <li><a href="/services">AI/ML Services</a></li>
+                <li><a href="/services">Consulting</a></li>
               </ul>
             </div>
             <div className="footer-section">
               <h4>Company</h4>
               <ul>
-                <li><a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about') }}>About Us</a></li>
-                <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact') }}>Contact</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/team">Team</a></li>
+                <li><a href="/contact">Contact</a></li>
               </ul>
             </div>
             <div className="footer-section">
@@ -1012,6 +1045,7 @@ function App() {
     <Router>
       <TransitionProvider>
         <AppContent />
+        <CookieConsent />
       </TransitionProvider>
     </Router>
   )
