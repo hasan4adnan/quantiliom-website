@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import '../App.css'
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'

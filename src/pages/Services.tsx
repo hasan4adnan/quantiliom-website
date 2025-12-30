@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import '../App.css'
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
+import { useTheme } from '../contexts/ThemeContext'
 
 interface ServiceCategory {
   id: number

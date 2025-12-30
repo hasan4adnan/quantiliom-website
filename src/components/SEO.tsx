@@ -84,3 +84,4 @@ export default function SEO({ title, description, canonical, ogImage }: SEOProps
   return null
 }
 
+
